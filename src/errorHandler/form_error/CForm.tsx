@@ -10,24 +10,15 @@ import {
 type CFormProps = {
   isImportSubmit?: boolean;
   inputConfig: IInputConfig[];
-  initialValueObject?: any;
+  initialValueObject: object | {} | undefined;
   submitButtonName?: string;
-  onSubmit?: (values: any) => void;
+  onSubmit: (values: any) => void;
 };
 
 const CForm = ({
   isImportSubmit = false,
   inputConfig = [],
-  initialValueObject = {
-    loginUserName: "",
-    organizationNumber: "",
-    address: "",
-    city: "",
-    phoneNumber: "",
-    did: "",
-    emailAddress: "",
-    userType: "",
-  },
+  initialValueObject,
   submitButtonName = "Submit",
   onSubmit,
 }: CFormProps): JSX.Element => {
@@ -36,7 +27,7 @@ const CForm = ({
   return (
     <ErrorHandler>
       <Formik
-        initialValues={initialValueObject}
+        initialValues={initialValueObject || {}}
         validationSchema={validationSchema}
         onSubmit={(values, { setSubmitting }) => {
           if (onSubmit != null) {

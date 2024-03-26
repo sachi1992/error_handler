@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useErrorBoundary } from "react-error-boundary";
 import { object, number, boolean, string, date } from "yup";
 import * as Yup from "yup";
+import { toast } from "react-toastify";
 
 const HandleApiRespondError = (): JSX.Element => {
   const { showBoundary } = useErrorBoundary();
@@ -16,7 +17,6 @@ const HandleApiRespondError = (): JSX.Element => {
     // }, 2);
     // checkValid();
     // apiRequest();
-    // validateAPIreturn();
   }, []);
 
   const checkValid = async () => {
@@ -117,12 +117,23 @@ const HandleApiRespondError = (): JSX.Element => {
       .catch((validationError) => {
         // If validation fails, handle the validation error
         console.error("Validation Error:", validationError.message);
-        showBoundary(validationError);
+        // showBoundary(validationError);
+        toast.error(validationError.message);
         // Handle error display or other error handling logic
       });
   };
 
-  return <div>API error</div>;
+  const onClickButton = (e: any) => {
+    e.preventDefault();
+    validateAPIreturn();
+  };
+
+  return (
+    <div>
+      API error
+      <button onClick={onClickButton}>get Api error</button>
+    </div>
+  );
 };
 
 export default HandleApiRespondError;
