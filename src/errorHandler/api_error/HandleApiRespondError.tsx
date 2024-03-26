@@ -1,17 +1,10 @@
 import { useEffect } from "react";
-import {
-  ErrorHandler,
-  // , CustomError
-} from "../errorHandler";
-import CustomForm from "./CustomForm";
-import { useErrorBoundary } from "react-error-boundary";
-import Sample from "./countingIssue/sample";
-import HandleApiRespondError from "../errorHandler/api_error/HandleApiRespondError";
 
+import { useErrorBoundary } from "react-error-boundary";
 import { object, number, boolean, string, date } from "yup";
 import * as Yup from "yup";
 
-const Example1 = (): JSX.Element => {
+const HandleApiRespondError = (): JSX.Element => {
   const { showBoundary } = useErrorBoundary();
 
   useEffect(() => {
@@ -129,27 +122,7 @@ const Example1 = (): JSX.Element => {
       });
   };
 
-  return (
-    <ErrorHandler>
-      <div className="container">
-        <div className="grid grid-cols-3 gap-4">
-          <div className="col-start-1">
-            <div>
-              <Sample />
-            </div>
-
-            <div>
-              <CustomForm />
-            </div>
-
-            <div>
-              <HandleApiRespondError />
-            </div>
-          </div>
-        </div>
-      </div>
-    </ErrorHandler>
-  );
+  return <div>API error</div>;
 };
 
-export default Example1;
+export default HandleApiRespondError;

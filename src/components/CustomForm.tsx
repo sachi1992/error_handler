@@ -5,27 +5,27 @@ function CustomForm(): JSX.Element {
     <ErrorHandler>
       <CForm
         inputConfig={[
-          {
-            label: "Check User",
-            name: "isUser",
-            isValidate: true,
-            validationType: [ValidationType.Required],
-            inputType: "checkbox",
-          },
+          // {
+          //   label: "Check User",
+          //   name: "isUser",
+          //   isValidate: true,
+          //   validationType: [ValidationType.Required],
+          //   inputType: "checkbox",
+          // },
           {
             label: "Username",
             name: "loginUserName",
             isValidate: true,
-            validationType: [ValidationType.Required, ValidationType.Url],
+            validationType: [ValidationType.Required],
             inputType: "text",
           },
-          {
-            label: "URL",
-            name: "url",
-            isValidate: true,
-            validationType: [ValidationType.Url],
-            inputType: "text",
-          },
+          // {
+          //   label: "URL",
+          //   name: "url",
+          //   isValidate: true,
+          //   validationType: [ValidationType.Url],
+          //   inputType: "text",
+          // },
           {
             label: " Organization Number",
             name: "organizationNumber",

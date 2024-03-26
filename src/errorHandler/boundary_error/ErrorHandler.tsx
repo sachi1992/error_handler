@@ -1,57 +1,57 @@
-import { ReactNode, useState } from 'react'
-import { ErrorBoundary } from 'react-error-boundary'
-import ErrorFallback from './ErrorFallback'
+import { ReactNode, useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorFallback from "./ErrorFallback";
+// import * as Sentry from "@sentry/react";
 
 type IPropErrorHandler = {
-  children: ReactNode
-}
+  children: ReactNode;
+};
 
 export const ErrorHandler = ({ children }: IPropErrorHandler): JSX.Element => {
-  const [errorType, setErrorType] = useState<string | null>(null)
+  const [errorType, setErrorType] = useState<string | null>(null);
 
   const errorHandler = (error: any, errorInfo: any): void => {
-    console.log('🚀 ~~ errorInfo, error', errorInfo, error)
-
     if (
-      Boolean(error.message.includes('is undefined')) ||
-      Boolean(error.message.includes('is null'))
+      Boolean(error.message.includes("is undefined")) ||
+      Boolean(error.message.includes("is null"))
     ) {
-      setErrorType('nullOrUndefined')
+      setErrorType("nullOrUndefined");
     } else if (error instanceof SyntaxError) {
-      setErrorType('syntaxError')
+      setErrorType("syntaxError");
     } else if (
-      typeof error.message === 'string' &&
-      Boolean(error.message.includes('Type'))
+      typeof error.message === "string" &&
+      Boolean(error.message.includes("Type"))
     ) {
-      setErrorType('typeError')
-    } else if (error.type === 'formValidation') {
-      setErrorType('formValidation')
+      setErrorType("typeError");
+    } else if (error.type === "formValidation") {
+      setErrorType("formValidation");
     } else {
-      console.error(
-        'Error caught by TypeMismatchErrorBoundary:',
-        error,
-        errorInfo,
-        '>>>>>>>>>',
-        error.message
-      )
-
-      setErrorType('other')
+      setErrorType("other");
     }
-  }
+  };
 
   return (
     <div>
       <ErrorBoundary
         // fallback={<div>Something went wrong</div>} // same function
         FallbackComponent={(err) => (
-          <ErrorFallback error={err.error} errorType={errorType ?? ''} />
+          <ErrorFallback error={err.error} errorType={errorType ?? ""} />
         )}
-        onError={errorHandler}
-      >
+        onError={errorHandler}>
         {children}
       </ErrorBoundary>
+      {/* <Sentry.ErrorBoundary
+        // fallback={<div>Something went wrong</div>} // same function
+        // FallbackComponent={(err) => (
+        //   <ErrorFallback error={err.error} errorType={errorType ?? ''} />
+        // )}
+        // onError={errorHandler}
+        fallback={ErrorFallback}
+        showDialog>
+        {children}
+      </Sentry.ErrorBoundary> */}
     </div>
-  )
-}
+  );
+};
 
-export default ErrorHandler
+export default ErrorHandler;
