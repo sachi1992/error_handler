@@ -4,9 +4,13 @@ import {
   IValidationType,
   ErrorHandler,
   IInputConfig,
+  CustomError,
 } from "../../errorHandler";
+import { useErrorBoundary } from "react-error-boundary";
 
 function CustomForm(): JSX.Element {
+  const { showBoundary } = useErrorBoundary();
+
   const inputConfig: IInputConfig[] = [
     {
       label: "Username",
@@ -74,20 +78,25 @@ function CustomForm(): JSX.Element {
 
   // Handle form submit
   const handleSubmit = () => {
-    // Add form submission logic here
-    // If there's an error, show it as a toast message
     const errorMessage = "An error occurred during form submission.";
-    // toast.error(errorMessage);
+    const error = new CustomError("formValidation", errorMessage);
+    showBoundary(error);
+    // throw new Error(errorMessage);
   };
 
   return (
-    <ErrorHandler>
-      <CForm
-        inputConfig={inputConfig}
-        onSubmit={handleSubmit}
-        initialValueObject={userFormObject}
-      />
-    </ErrorHandler>
+    <>
+      <div className="text-sky-400 text-lg font-semibold">
+        Show Form Validation Error
+      </div>
+      <ErrorHandler>
+        <CForm
+          inputConfig={inputConfig}
+          onSubmit={handleSubmit}
+          initialValueObject={userFormObject}
+        />
+      </ErrorHandler>
+    </>
   );
 }
 

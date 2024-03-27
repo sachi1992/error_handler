@@ -11,6 +11,8 @@ export const ErrorHandler = ({ children }: IPropErrorHandler): JSX.Element => {
   const [errorType, setErrorType] = useState<string | null>(null);
 
   const errorHandler = (error: any, errorInfo: any): void => {
+    console.log(".......>>>>>>", error);
+
     if (
       Boolean(error.message.includes("is undefined")) ||
       Boolean(error.message.includes("is null"))
@@ -31,26 +33,14 @@ export const ErrorHandler = ({ children }: IPropErrorHandler): JSX.Element => {
   };
 
   return (
-    <div>
-      <ErrorBoundary
-        // fallback={<div>Something went wrong</div>} // same function
-        FallbackComponent={(err) => (
-          <ErrorFallback error={err.error} errorType={errorType ?? ""} />
-        )}
-        onError={errorHandler}>
-        {children}
-      </ErrorBoundary>
-      {/* <Sentry.ErrorBoundary
-        // fallback={<div>Something went wrong</div>} // same function
-        // FallbackComponent={(err) => (
-        //   <ErrorFallback error={err.error} errorType={errorType ?? ''} />
-        // )}
-        // onError={errorHandler}
-        fallback={ErrorFallback}
-        showDialog>
-        {children}
-      </Sentry.ErrorBoundary> */}
-    </div>
+    <ErrorBoundary
+      // fallback={<div>Something went wrong</div>} // same function
+      FallbackComponent={(err) => (
+        <ErrorFallback error={err.error} errorType={errorType ?? ""} />
+      )}
+      onError={errorHandler}>
+      {children}
+    </ErrorBoundary>
   );
 };
 
