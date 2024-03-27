@@ -1,6 +1,10 @@
 import * as Yup from "yup";
 import { IInputConfig } from "./IFormProp";
 
+/**
+ * Represents types of validation that can be applied to an input field.
+ * @enum {string}
+ */
 export enum IValidationType {
   Required = "required",
   Org = "org",
@@ -16,6 +20,17 @@ export enum IValidationType {
   Boolean = "boolean",
 }
 
+/**
+ * IValidationConfig Interface
+ *
+ * Represents a configuration for input field validation.
+ *
+ * @interface
+ * @property {string} [name] - The name of the input field.
+ * @property {boolean} [label] - Whether the input field has a label.
+ * @property {string} [validationMessage] - Custom validation message to display.
+ * @property {IValidationType[]} validationType - Types of validation to apply.
+ */
 export type IValidationConfig = {
   name?: string;
   label?: boolean;
@@ -23,13 +38,21 @@ export type IValidationConfig = {
   validationType: IValidationType[];
 };
 
+/**
+ * Validates input value based on its type.
+ * @param {string} value - The input value to validate
+ * @returns {string} - The type of validation error, if any
+ */
 const validateInput = (value: string): string => {
+  // Remove spaces from the value
   const stringWithSpaces = value;
   const stringWithoutSpaces = stringWithSpaces.replace(/\s/g, "");
 
+  // Regular expressions for validation
   const regexZipCode = /^\d{5}$/;
   const regexString = /[a-zA-Z]/;
 
+  // Check if the value matches the patterns
   const numbers = stringWithoutSpaces.match(/\d+/g);
   const isFiveDigitNumber = numbers?.some((num) => regexZipCode.test(num));
 
@@ -42,7 +65,12 @@ const validateInput = (value: string): string => {
   }
 };
 
-export const CValidationFunction = (
+/**
+ * Generates a Yup validation schema based on input configuration.
+ * @param {(IInputConfig[] | IValidationConfig[])} inputConfig - The input configuration
+ * @returns {Yup.ObjectSchema<object>} - The Yup validation schema
+ */
+export const CFormValidationFunction = (
   inputConfig: IInputConfig[] | IValidationConfig[]
 ): Yup.ObjectSchema<object> => {
   let validationSchemaObject: any = {};
@@ -179,9 +207,10 @@ export const CValidationFunction = (
     }
   });
 
+  // Create Yup object schema using the generated validation schema
   const validationSchema = Yup.object().shape(validationSchemaObject);
 
   return validationSchema;
 };
 
-export default { CValidationFunction };
+export default CFormValidationFunction;
