@@ -1,11 +1,11 @@
 import { Formik, Form, Field, ErrorMessage } from "formik";
 
-import { ErrorHandler } from "../boundary_error";
+import { ErrorHandler } from "../../errorHandler/boundary_error";
 import {
   CFormValidationFunction,
   IInputConfig,
   IOptionSelect,
-} from "./ValidateCForm";
+} from "../../errorHandler/form_error";
 
 type CFormProps = {
   isImportSubmit?: boolean;
