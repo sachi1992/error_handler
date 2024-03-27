@@ -4,7 +4,7 @@ import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import * as Sentry from "@sentry/react";
-import { Integrations } from "@sentry/tracing";
+// import { Integrations } from "@sentry/tracing";
 // Sentry.init({
 //   dsn: 'https://91abc073a6fee85d52889b4843c53e9a@o4506942752358400.ingest.us.sentry.io/4506942754062336',
 //   integrations: [
