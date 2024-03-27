@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
 import {
-  CForm,
   IValidationType,
   ErrorHandler,
   IInputConfig,
   CustomError,
 } from "../../errorHandler";
 import { useErrorBoundary } from "react-error-boundary";
+import CForm from "./CForm";
 
 function CustomForm(): JSX.Element {
   const { showBoundary } = useErrorBoundary();
@@ -62,7 +62,7 @@ function CustomForm(): JSX.Element {
   ];
 
   const [userFormObject, setUserFormObject] = useState({
-    loginUserName: "",
+    loginUserName: "amanda",
     organizationNumber: "",
     address: "",
     city: "",
