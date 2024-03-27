@@ -2,34 +2,35 @@
 import { ErrorHandler } from "../errorHandler";
 import CustomForm from "./formHandlingError/CustomForm";
 import Sample from "./countingIssue/sample";
-import HandleApiRespondError from "../errorHandler/api_error/HandleApiRespondError";
+import HandleApiRespondError from "./apiError/HandleApiRespondError";
+import HandleCrashError from "./syntaxError/HandleCrashError";
 
 const Example1 = (): JSX.Element => {
   return (
-    <ErrorHandler>
-      <div className="container py-10">
-        <div className="grid grid-cols-2 gap-5 text-left">
-          <div className="col-start-1">
-            <div className="bg-slate-50 py-6 px-6">
-              <ErrorHandler>
-                <CustomForm />
-              </ErrorHandler>
-            </div>
-          </div>
-          <div className="col-start-2">
-            <div>
-              Show API Error Message
-              <HandleApiRespondError />
-            </div>
-
-            <div>
-              Show Page Crashing Error
-              <Sample />
-            </div>
+    <div className="container py-10">
+      <div className="grid grid-cols-2 gap-5 text-left">
+        <div className="col-start-1">
+          <div className="bg-slate-50 py-6 px-6">
+            <ErrorHandler>
+              <CustomForm />
+            </ErrorHandler>
           </div>
         </div>
+        <div className="col-start-2">
+          <ErrorHandler>
+            <HandleCrashError />
+          </ErrorHandler>
+
+          <ErrorHandler>
+            <HandleApiRespondError />
+          </ErrorHandler>
+
+          <ErrorHandler>
+            <Sample />
+          </ErrorHandler>
+        </div>
       </div>
-    </ErrorHandler>
+    </div>
   );
 };
 
