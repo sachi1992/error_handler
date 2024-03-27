@@ -1,22 +1,33 @@
-import { useErrorBoundary } from 'react-error-boundary'
+/**
+ * ErrorFallback Component
+ *
+ * This component renders a fallback UI when an error occurs in a React component wrapped with an error boundary.
+ * It provides a button to retry the action that caused the error.
+ *
+ * @component
+ * @example
+ * // Usage:
+ * <ErrorFallback error={error} errorType="formValidation" />
+ *
+ * @param {Object} props - The component props.
+ * @param {any} props.error - The error object.
+ * @param {string} [props.errorType] - The type of error.
+ * @returns {JSX.Element} A React JSX element representing the error fallback UI.
+ */
 
-import { useEffect } from 'react'
-// import { handleToastMessage } from 'utilities'
+import { useErrorBoundary } from "react-error-boundary";
+import { useEffect } from "react";
 
 type IErrorFallbackProps = {
-  error: any
-  errorType?: string
-  // resetErrorBoundary: any
-}
+  error: any;
+  errorType?: string;
+};
 
 const ErrorFallback = ({
   error,
-  errorType
-  // resetErrorBoundary
+  errorType,
 }: IErrorFallbackProps): JSX.Element => {
-  const { resetBoundary } = useErrorBoundary()
-
-  //   same function
+  const { resetBoundary } = useErrorBoundary();
 
   //  const retryAction = useCallback(() => {
   //    // This function will be called when the user clicks "Try again"
@@ -28,56 +39,47 @@ const ErrorFallback = ({
   //  }, [])
 
   useEffect(() => {
-    // if (error !== null || error !== '') {
-    //  page crash handler
-    window.addEventListener('error', (e) => {
-      if (e.type === 'error') {
+    // hide webpack-dev-server-client-overlay
+    window.addEventListener("error", (e) => {
+      if (e.type === "error") {
         const resizeObserverErrDiv = document.getElementById(
-          'webpack-dev-server-client-overlay-div'
-        )
+          "webpack-dev-server-client-overlay-div"
+        );
         const resizeObserverErr = document.getElementById(
-          'webpack-dev-server-client-overlay'
-        )
-        if (resizeObserverErr !== null) {
-          resizeObserverErr.setAttribute('style', 'display: none')
-        }
-        if (resizeObserverErrDiv !== null) {
-          resizeObserverErrDiv.setAttribute('style', 'display: none')
+          "webpack-dev-server-client-overlay"
+        );
+        if (resizeObserverErr && resizeObserverErrDiv) {
+          resizeObserverErr.style.display = "none";
+          resizeObserverErrDiv.style.display = "none";
         }
       }
-    })
-    // }
-  }, [])
+    });
+  }, []);
 
-  if (errorType === 'formValidation') {
-    // handleToastMessage(error.message, 'error')
-    return (
-      <div>
-        <h2>Something went wrong</h2>
-        <p>{error.message}</p>
-        {/* Add additional error handling or instructions here */}
-      </div>
-    )
-  }
+  // for specific error type check and return custom error component
+  // if (errorType === "formValidation") {
+  //   return (
+  //     <div>
+  //       <h2>Something went wrong</h2>
+  //       <p>{error.message}</p>
+  //       {/* Add additional error handling or instructions here */}
+  //     </div>
+  //   );
+  // }
 
   return (
     <div>
       <h2>
-        <b>Something went wrong {errorType ?? ''} </b>
+        <b>Something went wrong {`(${errorType})` ?? ""} </b>
       </h2>
 
-      <p style={{ color: 'red' }}>{error.message}</p>
+      <p className="text-red-500">{error.message}</p>
 
-      <button
-        onClick={
-          // resetErrorBoundary
-          resetBoundary
-        }
-      >
+      <button className="text-blue-500 font-bolder" onClick={resetBoundary}>
         Try again
       </button>
     </div>
-  )
-}
+  );
+};
 
-export default ErrorFallback
+export default ErrorFallback;
