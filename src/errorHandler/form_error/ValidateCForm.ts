@@ -1,4 +1,5 @@
 import * as Yup from "yup";
+import { IInputConfig } from "./IFormProp";
 
 export enum IValidationType {
   Required = "required",
@@ -15,30 +16,11 @@ export enum IValidationType {
   Boolean = "boolean",
 }
 
-export type IOptionSelect = {
-  value: string;
-  name: string;
-};
-
-export type IInputConfig = {
-  label: string;
-  name: string;
-  isValidate: boolean;
-  validationType?: IValidationType[];
-  validationMessage?: string;
-  inputType?: "text" | "email" | "select" | "checkbox";
-  placeholder?: string;
-  options?: IOptionSelect[];
-};
-
 export type IValidationConfig = {
-  name: string;
-  isValidate: boolean;
-  validationType?: IValidationType[];
+  name?: string;
+  label?: boolean;
   validationMessage?: string;
-  inputType?: "text" | "email" | "select" | "checkbox";
-  placeholder?: string;
-  options?: IOptionSelect[];
+  validationType: IValidationType[];
 };
 
 const validateInput = (value: string): string => {
@@ -60,142 +42,140 @@ const validateInput = (value: string): string => {
   }
 };
 
-export const CFormValidationFunction = (
-  inputConfig: IInputConfig[]
+export const CValidationFunction = (
+  inputConfig: IInputConfig[] | IValidationConfig[]
 ): Yup.ObjectSchema<object> => {
-  const validationSchemaObject: any = {};
+  let validationSchemaObject: any = {};
 
-  inputConfig.forEach((config: IInputConfig) => {
-    if (config.isValidate && config.validationType !== undefined) {
-      // let validationRules: Yup.StringSchema<string | undefined> = Yup.string()
+  inputConfig.forEach((config: IInputConfig | IValidationConfig) => {
+    let validationRules:
+      | Yup.StringSchema<string | undefined>
+      | Yup.NumberSchema<number | undefined>
+      | Yup.BooleanSchema<boolean | undefined>
+      | Yup.ObjectSchema<object | undefined> = Yup.string();
 
-      let validationRules:
-        | Yup.StringSchema<string | undefined>
-        | Yup.NumberSchema<number | undefined>
-        | Yup.BooleanSchema<boolean | undefined>
-        | Yup.ObjectSchema<object | undefined> = Yup.string();
-
-      if (Array.isArray(config?.validationType)) {
-        config.validationType?.forEach((type) => {
-          switch (type) {
-            case IValidationType.Required:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.required(
-                  config.validationMessage ?? `${config.label} is required`
-                );
-              }
-              break;
-
-            case IValidationType.Org:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.matches(
-                  /^(19|20)?(\d{6}|\d{8})[- ]?\d{4}$/,
-                  config.validationMessage ?? "Invalid organization number"
-                );
-              }
-              break;
-
-            case IValidationType.Email:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.email(
-                  config.validationMessage ?? "Invalid email address"
-                );
-              }
-              break;
-
-            case IValidationType.PhoneWithCode:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.matches(
-                  /^(?:(?:00\d{2}|0)\s?|\+)\d{3,4}(?:\s?\d){7}$/,
-                  config.validationMessage ??
-                    "Invalid phone number with country code"
-                );
-              }
-              break;
-
-            case IValidationType.Phone:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.matches(
-                  /^\d{10}$/,
-                  config.validationMessage ?? "Invalid phone number"
-                );
-              }
-              break;
-
-            case IValidationType.ZipCode:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.matches(
-                  /^\d{5}$/,
-                  config.validationMessage ??
-                    "Zip code must be a 5-digit number"
-                );
-              }
-              break;
-
-            case IValidationType.Ort:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.matches(
-                  /[a-zA-Z]/,
-                  config.validationMessage ?? "Invalid city format"
-                );
-              }
-              break;
-
-            case IValidationType.CityCode:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.test({
-                  test(value, ctx) {
-                    const returnValue = validateInput(value ?? "");
-                    if (returnValue === "zipCode") {
-                      return ctx.createError({
-                        message: "Zip code must be a 5-digit number",
-                      });
-                    }
-                    if (returnValue === "ort") {
-                      return ctx.createError({
-                        message: "Invalid city format",
-                      });
-                    }
-
-                    return true;
-                  },
-                });
-              }
-              break;
-
-            case IValidationType.Url:
-              if (validationRules instanceof Yup.string) {
-                validationRules = validationRules.url(
-                  config.validationMessage ?? "Invalid URL format"
-                );
-              }
-              break;
-
-            case IValidationType.String:
-              validationRules = validationRules.typeError(
-                config.validationMessage ?? "Value must be a string"
+    if (Array.isArray(config?.validationType)) {
+      config.validationType?.forEach((type) => {
+        switch (type) {
+          case IValidationType.Required:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.required(
+                config.validationMessage ?? `${config?.label} is required`
               );
-              break;
+            }
+            break;
 
-            case IValidationType.Number:
-              validationRules = Yup.number().typeError(
-                config.validationMessage ?? "Value must be a number"
+          case IValidationType.Org:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.matches(
+                /^(19|20)?(\d{6}|\d{8})[- ]?\d{4}$/,
+                config.validationMessage ?? "Invalid organization number"
               );
-              break;
+            }
+            break;
 
-            case IValidationType.Boolean:
-              validationRules = Yup.boolean().typeError(
-                config.validationMessage ?? "Value must be a boolean"
+          case IValidationType.Email:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.email(
+                config.validationMessage ?? "Invalid email address"
               );
-              break;
+            }
+            break;
 
-            default:
-              break;
-          }
-        });
-      }
+          case IValidationType.PhoneWithCode:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.matches(
+                /^(?:(?:00\d{2}|0)\s?|\+)\d{3,4}(?:\s?\d){7}$/,
+                config.validationMessage ??
+                  "Invalid phone number with country code"
+              );
+            }
+            break;
 
+          case IValidationType.Phone:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.matches(
+                /^\d{10}$/,
+                config.validationMessage ?? "Invalid phone number"
+              );
+            }
+            break;
+
+          case IValidationType.ZipCode:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.matches(
+                /^\d{5}$/,
+                config.validationMessage ?? "Zip code must be a 5-digit number"
+              );
+            }
+            break;
+
+          case IValidationType.Ort:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.matches(
+                /[a-zA-Z]/,
+                config.validationMessage ?? "Invalid city format"
+              );
+            }
+            break;
+
+          case IValidationType.CityCode:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.test({
+                test(value, ctx) {
+                  const returnValue = validateInput(value ?? "");
+                  if (returnValue === "zipCode") {
+                    return ctx.createError({
+                      message: "Zip code must be a 5-digit number",
+                    });
+                  }
+                  if (returnValue === "ort") {
+                    return ctx.createError({
+                      message: "Invalid city format",
+                    });
+                  }
+
+                  return true;
+                },
+              });
+            }
+            break;
+
+          case IValidationType.Url:
+            if (validationRules instanceof Yup.string) {
+              validationRules = validationRules.url(
+                config.validationMessage ?? "Invalid URL format"
+              );
+            }
+            break;
+
+          case IValidationType.String:
+            validationRules = validationRules.typeError(
+              config.validationMessage ?? "Value must be a string"
+            );
+            break;
+
+          case IValidationType.Number:
+            validationRules = Yup.number().typeError(
+              config.validationMessage ?? "Value must be a number"
+            );
+            break;
+
+          case IValidationType.Boolean:
+            validationRules = Yup.boolean().typeError(
+              config.validationMessage ?? "Value must be a boolean"
+            );
+            break;
+
+          default:
+            break;
+        }
+      });
+    }
+    if (config?.name) {
       validationSchemaObject[config.name] = validationRules;
+    } else {
+      validationSchemaObject = validationRules;
     }
   });
 
@@ -204,4 +184,4 @@ export const CFormValidationFunction = (
   return validationSchema;
 };
 
-export default { CFormValidationFunction };
+export default { CValidationFunction };
