@@ -4,7 +4,7 @@
  * way to handle errors that occur within them.
  * @param children The child components to be wrapped.
  */
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./ErrorFallback";
 
@@ -39,6 +39,26 @@ export const ErrorHandler = ({ children }: IPropErrorHandler): JSX.Element => {
       setErrorType("other");
     }
   };
+
+  useEffect(() => {
+    // hide webpack-dev-server-client-overlay
+    window.addEventListener("error", (e) => {
+      const resizeObserverErrDiv = document.getElementById(
+        "webpack-dev-server-client-overlay-div"
+      );
+      const resizeObserverErr = document.getElementById(
+        "webpack-dev-server-client-overlay"
+      );
+
+      if (resizeObserverErr) {
+        resizeObserverErr.style.display = "none";
+      }
+
+      if (resizeObserverErrDiv) {
+        resizeObserverErrDiv.style.display = "none";
+      }
+    });
+  }, []);
 
   return (
     <ErrorBoundary

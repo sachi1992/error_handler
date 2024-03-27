@@ -16,7 +16,6 @@
  */
 
 import { useErrorBoundary } from "react-error-boundary";
-import { useEffect } from "react";
 
 type IErrorFallbackProps = {
   error: any;
@@ -37,24 +36,6 @@ const ErrorFallback = ({
   //    // Here, you can add your specific retry logic, for example, you can reload the page
   //    window.location.reload()
   //  }, [])
-
-  useEffect(() => {
-    // hide webpack-dev-server-client-overlay
-    window.addEventListener("error", (e) => {
-      if (e.type === "error") {
-        const resizeObserverErrDiv = document.getElementById(
-          "webpack-dev-server-client-overlay-div"
-        );
-        const resizeObserverErr = document.getElementById(
-          "webpack-dev-server-client-overlay"
-        );
-        if (resizeObserverErr && resizeObserverErrDiv) {
-          resizeObserverErr.style.display = "none";
-          resizeObserverErrDiv.style.display = "none";
-        }
-      }
-    });
-  }, []);
 
   // for specific error type check and return custom error component
   // if (errorType === "formValidation") {
