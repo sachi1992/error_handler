@@ -6,25 +6,21 @@ const HandleCrashError = (): JSX.Element => {
 
   return (
     <div>
-      Syntax and Timeout Error
-      <button
-        onClick={(e) => {
-          const error = new CustomError(
-            "",
-            "Button click with page crashing error"
-          );
-          showBoundary(error);
-        }}>
-        Custom Error Object
-      </button>
-      <button
-        onClick={(e) => {
-          setTimeout(() => {
-            throw new Error("Time out with page crashing error");
-          }, 2);
-        }}>
-        Timeout Error
-      </button>
+      Syntax Error
+      <br />
+      <div>
+        <button
+          className="bg-blue-500 text-white font-semibold py-2 px-4 rounded  "
+          onClick={(e) => {
+            const error = new CustomError(
+              "",
+              "Button click with page crashing error"
+            );
+            showBoundary(error);
+          }}>
+          Custom Error Object
+        </button>
+      </div>
     </div>
   );
 };
