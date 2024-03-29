@@ -54,9 +54,9 @@ function CustomForm(): JSX.Element {
       validationType: [IValidationType.Required],
       inputType: "select",
       options: [
-        { name: "Admin", value: "admin" },
-        { name: "Client", value: "client" },
-        { name: "User", value: "user" },
+        { label: "Admin", value: "admin" },
+        { label: "Client", value: "client" },
+        { label: "User", value: "user" },
       ],
     },
   ];
@@ -85,7 +85,7 @@ function CustomForm(): JSX.Element {
   };
 
   return (
-    <>
+    <div className="bg-slate-50 py-6 px-6">
       <div className="text-sky-400 text-lg font-semibold">
         Show Form Validation Error
       </div>
@@ -96,7 +96,7 @@ function CustomForm(): JSX.Element {
           initialValueObject={userFormObject}
         />
       </ErrorHandler>
-    </>
+    </div>
   );
 }
 

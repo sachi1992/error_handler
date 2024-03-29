@@ -1,3 +1,4 @@
 import CTextInput from "./CTextInput";
+import CSelectInput from "./CSelectInput";
 
-export default CTextInput;
+export { CTextInput, CSelectInput };

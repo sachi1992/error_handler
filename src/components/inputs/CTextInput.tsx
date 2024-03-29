@@ -44,6 +44,7 @@ const CTextInput: React.FC<BaseICTextInputProps> = (props) => {
   const { errors, touched } = useFormikContext<FormikValues>();
 
   const isError = touched[props.name] && errors[props.name];
+  console.log("🚀 ~ isError:", isError);
 
   const inputClass = `w-full p-2 border-2 rounded-lg outline-none 
   ${isError ? "border-red-400" : "border-green-400"} 

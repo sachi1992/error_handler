@@ -54,9 +54,9 @@ function WithFormik(): JSX.Element {
       validationType: [IValidationType.Required],
       inputType: "select",
       options: [
-        { name: "Admin", value: "admin" },
-        { name: "Client", value: "client" },
-        { name: "User", value: "user" },
+        { label: "Admin", value: "admin" },
+        { label: "Client", value: "client" },
+        { label: "User", value: "user" },
       ],
     },
   ];

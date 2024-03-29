@@ -1,5 +1,6 @@
 import "./App.css";
 import Example1 from "./components/Example1";
+import Example2 from "./components/Example2";
 import { ErrorHandler } from "./errorHandler";
 import * as Sentry from "@sentry/react";
 import { ShowApiError } from "./errorHandler/api_error";
@@ -14,6 +15,8 @@ function App() {
     <ErrorHandler>
       <div className="App">
         <ShowApiError />
+
+        <Example2 />
 
         <Example1 />
       </div>

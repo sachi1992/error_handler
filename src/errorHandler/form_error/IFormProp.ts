@@ -9,7 +9,7 @@ import { IValidationType } from "./ValidateCForm";
  */
 export type IOptionSelect = {
   value: string;
-  name: string;
+  label: string;
 };
 
 /**

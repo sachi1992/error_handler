@@ -1,4 +1,3 @@
-// import { useEffect } from "react";
 import { ErrorHandler, ErrorBoundary } from "../errorHandler";
 import CustomForm from "./formHandlingError/CustomForm";
 import Sample from "./syntaxError/countingIssue/sample";
@@ -14,11 +13,9 @@ const Example1 = (): JSX.Element => {
     <div className="container py-10">
       <div className="grid grid-cols-3 gap-5 text-left">
         <div className="col-start-1">
-          <div className="bg-slate-50 py-6 px-6">
-            <ErrorHandler>
-              <CustomForm />
-            </ErrorHandler>
-          </div>
+          <ErrorHandler>
+            <CustomForm />
+          </ErrorHandler>
         </div>
         <div className="col">
           <ErrorHandler>
