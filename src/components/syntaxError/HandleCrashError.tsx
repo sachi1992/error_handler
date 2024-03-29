@@ -5,7 +5,7 @@ const HandleCrashError = (): JSX.Element => {
   const { showBoundary } = useErrorBoundary();
 
   return (
-    <div>
+    <div className="py-4">
       Syntax Error
       <br />
       <div>

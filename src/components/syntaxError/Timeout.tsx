@@ -7,7 +7,7 @@ const Timeout = (): JSX.Element => {
     }, 2);
   }, []);
 
-  return <div>Timeout Error</div>;
+  return <div className="py-4">Timeout Error</div>;
 };
 
 export default Timeout;

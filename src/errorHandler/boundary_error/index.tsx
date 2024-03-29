@@ -1,4 +1,5 @@
-import CustomError from './CustomError'
-import ErrorHandler from './ErrorHandler'
+import CustomError from "./CustomError";
+import ErrorHandler from "./ErrorHandler";
+import ErrorBoundary from "./ErrorBoundary";
 
-export { CustomError, ErrorHandler }
+export { CustomError, ErrorHandler, ErrorBoundary };
