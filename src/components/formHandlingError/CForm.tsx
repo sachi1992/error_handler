@@ -55,7 +55,7 @@ const CForm = ({
                     <option value="">{`Select ${config.label}`}</option>
                     {config.options?.map((option: IOptionSelect) => (
                       <option key={option.value} value={option.value}>
-                        {option.name}
+                        {option.label}
                       </option>
                     ))}
                   </Field>

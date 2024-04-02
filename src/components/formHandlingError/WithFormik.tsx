@@ -8,7 +8,7 @@ import {
 import { useErrorBoundary } from "react-error-boundary";
 import CForm from "./CForm";
 
-function CustomForm(): JSX.Element {
+function WithFormik(): JSX.Element {
   const { showBoundary } = useErrorBoundary();
 
   const inputConfig: IInputConfig[] = [
@@ -85,7 +85,7 @@ function CustomForm(): JSX.Element {
   };
 
   return (
-    <div className="bg-slate-50 py-6 px-6">
+    <>
       <div className="text-sky-400 text-lg font-semibold">
         Show Form Validation Error
       </div>
@@ -96,8 +96,8 @@ function CustomForm(): JSX.Element {
           initialValueObject={userFormObject}
         />
       </ErrorHandler>
-    </div>
+    </>
   );
 }
 
-export default CustomForm;
+export default WithFormik;

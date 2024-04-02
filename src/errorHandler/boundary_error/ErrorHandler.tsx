@@ -1,7 +1,12 @@
-import { ReactNode, useState } from "react";
+/**
+ * Component for error handling in React applications.
+ * It wraps its children with an ErrorBoundary component and provides a centralized
+ * way to handle errors that occur within them.
+ * @param children The child components to be wrapped.
+ */
+import { ReactNode, useState, useEffect } from "react";
 import { ErrorBoundary } from "react-error-boundary";
 import ErrorFallback from "./ErrorFallback";
-// import * as Sentry from "@sentry/react";
 
 type IPropErrorHandler = {
   children: ReactNode;
@@ -10,9 +15,12 @@ type IPropErrorHandler = {
 export const ErrorHandler = ({ children }: IPropErrorHandler): JSX.Element => {
   const [errorType, setErrorType] = useState<string | null>(null);
 
+  /**
+   * Function to handle errors and categorize them based on their characteristics.
+   * @param error The error object.
+   * @param errorInfo Additional information about the error.
+   */
   const errorHandler = (error: any, errorInfo: any): void => {
-    console.log(".......>>>>>>", error);
-
     if (
       Boolean(error.message.includes("is undefined")) ||
       Boolean(error.message.includes("is null"))
@@ -32,9 +40,28 @@ export const ErrorHandler = ({ children }: IPropErrorHandler): JSX.Element => {
     }
   };
 
+  useEffect(() => {
+    // hide webpack-dev-server-client-overlay
+    window.addEventListener("error", (e) => {
+      const resizeObserverErrDiv = document.getElementById(
+        "webpack-dev-server-client-overlay-div"
+      );
+      const resizeObserverErr = document.getElementById(
+        "webpack-dev-server-client-overlay"
+      );
+
+      if (resizeObserverErr) {
+        resizeObserverErr.style.display = "none";
+      }
+
+      if (resizeObserverErrDiv) {
+        resizeObserverErrDiv.style.display = "none";
+      }
+    });
+  }, []);
+
   return (
     <ErrorBoundary
-      // fallback={<div>Something went wrong</div>} // same function
       FallbackComponent={(err) => (
         <ErrorFallback error={err.error} errorType={errorType ?? ""} />
       )}
