@@ -16,9 +16,9 @@ function App() {
       <div className="App">
         <ShowApiError />
 
-        <Example2 />
-
         <Example1 />
+
+        <Example2 />
       </div>
     </ErrorHandler>
   );
