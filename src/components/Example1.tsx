@@ -4,14 +4,14 @@ import Sample from "./syntaxError/countingIssue/sample";
 import ObjectValidationFail from "./apiError/ObjectValidationFail";
 import HandleCrashError from "./syntaxError/HandleCrashError";
 import Timeout from "./syntaxError/Timeout";
-import WithFormik from "./formHandlingError/WithFormik";
+// import WithFormik from "./formHandlingError/WithFormik";
 import ApiRequestFail from "./apiError/ApiRequestFail";
 import HandleApiRespondError from "./apiError/HandleApiRespondError";
 
 const Example1 = (): JSX.Element => {
   return (
     <div className="container py-10">
-      <div className="grid grid-cols-3 gap-5 text-left">
+      <div className="grid grid-cols-2 gap-5 text-left">
         <div className="col-start-1">
           <ErrorHandler>
             <CustomForm />
@@ -43,9 +43,9 @@ const Example1 = (): JSX.Element => {
           </ErrorHandler>
         </div>
 
-        <div className="col">
+        {/* <div className="col">
           <WithFormik />
-        </div>
+        </div> */}
       </div>
     </div>
   );
