@@ -7,16 +7,23 @@ import Timeout from "./syntaxError/Timeout";
 // import WithFormik from "./formHandlingError/WithFormik";
 import ApiRequestFail from "./apiError/ApiRequestFail";
 import HandleApiRespondError from "./apiError/HandleApiRespondError";
+import ApiRetry from "./APIFallback/ApiRetry";
 
 const Example1 = (): JSX.Element => {
   return (
     <div className="container py-10">
-      <div className="grid grid-cols-2 gap-5 text-left">
+      <div className="grid grid-cols-3 gap-5 text-left">
         <div className="col-start-1">
+          <ErrorHandler>
+            <ApiRetry />
+          </ErrorHandler>
+        </div>
+        <div className="col">
           <ErrorHandler>
             <CustomForm />
           </ErrorHandler>
         </div>
+
         <div className="col">
           <ErrorHandler>
             <HandleCrashError />
