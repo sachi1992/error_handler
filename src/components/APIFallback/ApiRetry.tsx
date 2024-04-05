@@ -31,7 +31,7 @@ const ApiRetry: React.FC = () => {
 
   useEffect(() => {
     fetchData2();
-    // fetchData();
+    fetchData();
   }, []); // Run only once on component mount
 
   // Exponential back-off retry delay between requests
